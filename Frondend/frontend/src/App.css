@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+@theme {
+    --font-poppins: 'Poppins', sans-serif;
+
+    --color-DarkBlue: oklch(29.46% 0.0692 254.26);
+    --color-LightBlue-100: oklch(54.52% 0.1107 254.08);
+    --color-LightBlue-200: oklch(60.08% 0.0745 257.36);
+    --color-LightBlue-300: oklch(69.6% 0.0627 248.75);
+}
