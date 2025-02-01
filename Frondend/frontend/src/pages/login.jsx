@@ -2,7 +2,7 @@ import Logo from '../assets/bg-Logo.png'
 
 const Login = () => {
   return (
-    <div class="flex min-h-full flex-col justify-center px-6 py-18 lg:px-8">
+    <div class="flex min-h-full flex-col justify-center px-6 py-18 lg:px-8 ">
         <div class="sm:mx-auto sm:w-full sm:max-w-sm">
             <img class="mx-auto m-3 h-48 w-auto" src={Logo} alt="Your Company"/>
             <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Sign in to your account</h2>
@@ -31,10 +31,10 @@ const Login = () => {
             </div>
             </form>
 
-            {/*<p class="mt-10 text-center text-sm/6 text-gray-500">
-            Not a member?
-             <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">Start a 14 day free trial</a> 
-            </p> */}
+            <p class="mt-10 text-center text-sm/6 text-gray-500">
+            Not a member? {' '}
+             <a href="#" class="font-semibold text-LightBlue-100 hover:text-Darkblue">Register Now!</a> 
+            </p> 
         </div>
         </div>
   )

@@ -16,9 +16,9 @@ const header = () => {
         </div>
         
         <div class="hidden lg:flex lg:gap-x-12">
-          <a href="#" class="text-md/6 font-semibold text-white">Features</a>
-          <a href="#" class="text-md/6 font-semibold text-white">Marketplace</a>
-          <a href="#" class="text-md/6 font-semibold text-white">Company</a>
+          <a href="#" class="text-md/6 font-semibold text-white">Community</a>
+          <a href="#" class="text-md/6 font-semibold text-white">FAQs</a>
+          <a href="#" class="text-md/6 font-semibold text-white">Contact Us</a>
         </div>
 
         <div class="hidden lg:flex lg:flex-1 lg:justify-end align-center gap-x-6">
