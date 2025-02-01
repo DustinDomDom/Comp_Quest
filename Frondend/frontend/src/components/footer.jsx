@@ -34,10 +34,10 @@ const footer = () => {
                     <h3 class="text-sm font-semibold leading-6 text-gray-900">Account</h3>
                     <ul role="list" class="mt-6 space-y-4">
                     <li>
-                        <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Log In</a>
+                        <a href="Login" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Log In</a>
                     </li>
                     <li>
-                        <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Register</a>
+                        <a href="Register" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Register</a>
                     </li>
                     </ul>
                 </div>

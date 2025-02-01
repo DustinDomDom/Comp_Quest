@@ -31,12 +31,12 @@ const Login = () => {
             </div>
             </form>
 
-            <p class="mt-10 text-center text-sm/6 text-gray-500">
+            <p class="mt-8 text-center text-sm/6 text-gray-500">
             Not a member? {' '}
-             <a href="#" class="font-semibold text-LightBlue-100 hover:text-Darkblue">Register Now!</a> 
+             <a href="Register" class="font-semibold text-LightBlue-100 hover:text-Darkblue">Register Now!</a> 
             </p> 
         </div>
-        </div>
+    </div>
   )
 }
 

@@ -8,6 +8,7 @@ import Build from './pages/build'
 import Question from './pages/Question'
 import Errornotif from './components/errornotif'
 import Login from './pages/login'
+import Register from './pages/register'
 import React from 'react'
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route path='/FAQ' element={<Question />} />
           <Route path='/Error404' element={<Errornotif />} />
           <Route path='/Login' element={<Login />} />
+          <Route path='/Register' element={<Register />} />
         </Routes>
       <Footer />
     </main> 
