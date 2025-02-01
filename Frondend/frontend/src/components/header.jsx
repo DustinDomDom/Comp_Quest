@@ -22,7 +22,7 @@ const header = () => {
         </div>
 
         <div class="hidden lg:flex lg:flex-1 lg:justify-end align-center gap-x-6">
-          <a href="#" class="text-md/6 font-semibold text-white flex items-center">
+          <a href="/Login" class="text-md/6 font-semibold text-white flex items-center">
             Log in <FaArrowRight className="ml-2" />
           </a>
         </div>
