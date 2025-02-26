@@ -21,7 +21,7 @@ app.use(helmet()); // HTTPS security
 app.use(morgan("dev")); // Logging
 
 app.get("/api/Test", (req, res) => {
-  res.send("Hello World!");
+  res.send(sql);
 });
 
 async function initDB() {

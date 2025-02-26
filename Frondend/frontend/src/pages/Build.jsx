@@ -122,6 +122,14 @@ const Build = () => {
                       <span>Estimated Wattage</span>
                     </div>
                   </th>
+                  <th
+                    scope="col"
+                    class="px-4 py-3.5 text-sm font-normal text-center "
+                  >
+                    <div class="flex items-center justify-center gap-x-3">
+                      <span>Action</span>
+                    </div>
+                  </th>
                 </tr>
               </thead>
               <tbody class="bg-white  divide-y divide-gray-200 dark:divide-gray-700">
