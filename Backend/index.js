@@ -6,6 +6,7 @@ import morgan from "morgan";
 
 import { sql } from "./config/db.js";
 import productRoutes from "./routes/Products/productRoutes.js";
+import { createUser } from "./controllers/RegisterControllers.js";
 
 dotenv.config();
 
@@ -20,20 +21,36 @@ app.use(express.json()); // Body parser
 app.use(helmet()); // HTTPS security
 app.use(morgan("dev")); // Logging
 
-app.get("/api/Test", (req, res) => {
+app.get("/api/Components", (req, res) => {
   res.send(sql);
 });
 
 async function initDB() {
   try {
     await sql`
-    CREATE TABLE IF NOT EXISTS components (
-      componentName SERIAL PRIMARY KEY,
-      image TEXT NOT NULL,
-      name TEXT NOT NULL,
-      tag TEXT[] NOT NULL,
-      price NUMERIC NOT NULL,
-      wattage NUMERIC NOT NULL,
+    CREATE TABLE IF NOT EXISTS Components (
+      component_id SERIAL PRIMARY KEY,
+      component_type VARCHAR(255) NOT NULL,
+      name VARCHAR(255) NOT NULL,
+      image VARCHAR(255) NOT NULL,
+      manufacturer VARCHAR(100) NOT NULL,
+      price DECIMAL(10, 2),
+      wattage VARCHAR(255) NOT NULL,
+      created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+    `;
+
+    await sql`
+    CREATE TABLE IF NOT EXISTS Users (
+      user_id SERIAL PRIMARY KEY,
+      fname VARCHAR(50) NOT NULL,
+      lname VARCHAR(50) NOT NULL,
+      email VARCHAR(100) UNIQUE NOT NULL,
+      password_hash VARCHAR(255) NOT NULL,
+      street VARCHAR(50),
+      city VARCHAR(50),
+      state VARCHAR(50),
+      zip VARCHAR(10),
       created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
     `;
@@ -42,7 +59,7 @@ async function initDB() {
   }
 }
 
-app.use("/api/Test", productRoutes);
+app.use("/api/Components", productRoutes);
 
 initDB().then(() => {
   console.log("Database initialized");
@@ -50,3 +67,7 @@ initDB().then(() => {
     console.log(`Example app listening on port ${PORT}`);
   });
 });
+
+// LOGIN/REGISTER ROUTES
+
+app.use("/api/register", createUser);

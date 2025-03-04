@@ -1,15 +1,11 @@
 import { sql } from "../config/db.js";
 
-export const getallProducts = async (req, res) => {};
-
-export const getProductById = async (req, res) => {
-  const { id } = req.params;
-
+export const getallProducts = async (req, res) => {
   try {
-    const product =
-      await sql`SELECT * FROM components WHERE componentname = ${id}`;
+    const products = await sql`SELECT * FROM components`;
 
-    res.status(200).json({ success: true, data: product });
+    console.log(products);
+    res.status(201).json({ success: true, data: products });
   } catch (err) {
     console.log(err);
     return res
@@ -20,17 +16,33 @@ export const getProductById = async (req, res) => {
 
 // Created a new function called createProduct
 export const createProduct = async (req, res) => {
-  const { componentName, name, image } = req.body;
+  const {
+    component_id,
+    component_type,
+    name,
+    image,
+    manufacturer,
+    price,
+    wattage,
+  } = req.body;
   console.log(req.body);
 
-  if (!componentName || !name || !image) {
+  if (
+    !component_id ||
+    !component_type ||
+    !name ||
+    !image ||
+    !manufacturer ||
+    !price ||
+    !wattage
+  ) {
     return res.status(400).json({ message: "All fields are required!" });
   }
 
   try {
     const componentCreated = await sql`
-        INSERT INTO Test (componentName, image, name) 
-        VALUES (${componentName}, ${image}, ${name})
+        INSERT INTO Components (component_id, component_type, name, image, manufacturer, price, wattage) 
+        VALUES (${component_id}, ${component_type}, ${image}, ${name}, ${manufacturer}, ${price}, ${wattage})
         RETURNING *`;
 
     console.log("product created successfully");
@@ -45,3 +57,5 @@ export const createProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {};
 
 export const updateProduct = async (req, res) => {};
+
+export const getProductByComponentType = async (req, res) => {};
