@@ -4,13 +4,11 @@ export const getallProducts = async (req, res) => {
   try {
     const products = await sql`SELECT * FROM components`;
 
-    console.log(products);
-    res.status(201).json({ success: true, data: products });
+    console.log("products fetched successfully");
+
+    res.status(200).json({ success: true, data: products });
   } catch (err) {
     console.log(err);
-    return res
-      .status(500)
-      .json({ success: false, message: "Internal server error" });
   }
 };
 
@@ -58,4 +56,17 @@ export const deleteProduct = async (req, res) => {};
 
 export const updateProduct = async (req, res) => {};
 
-export const getProductByComponentType = async (req, res) => {};
+export const getProductByComponentType = async (req, res) => {
+  const { ComponentType } = req.params;
+
+  try {
+    const products = await sql`
+        SELECT * FROM components WHERE component_type = ${ComponentType}`;
+
+    console.log("products fetched successfully");
+
+    res.status(200).json({ success: true, data: products });
+  } catch (err) {
+    console.log(err);
+  }
+};

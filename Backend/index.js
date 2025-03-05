@@ -21,10 +21,6 @@ app.use(express.json()); // Body parser
 app.use(helmet()); // HTTPS security
 app.use(morgan("dev")); // Logging
 
-app.get("/api/Components", (req, res) => {
-  res.send(sql);
-});
-
 async function initDB() {
   try {
     await sql`
@@ -51,6 +47,25 @@ async function initDB() {
       city VARCHAR(50),
       state VARCHAR(50),
       zip VARCHAR(10),
+      created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+    `;
+
+    await sql`
+    CREATE TABLE IF NOT EXISTS Orders (
+      order_id SERIAL PRIMARY KEY,
+      user_id INT,
+      component_id INT,
+      quantity INT,
+      created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+    `;
+
+    await sql`
+    CREATE TABLE IF NOT EXISTS Builds (
+      build_id SERIAL PRIMARY KEY,
+      user_id INT REFERENCES Users(user_id),
+      typecomponents TEXT[] ,
       created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
     `;
