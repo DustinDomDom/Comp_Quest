@@ -1,5 +1,6 @@
 import { sql } from "../config/db.js";
 
+// Created a new function called getallProducts
 export const getallProducts = async (req, res) => {
   try {
     const products = await sql`SELECT * FROM components`;
@@ -52,10 +53,7 @@ export const createProduct = async (req, res) => {
   }
 };
 
-export const deleteProduct = async (req, res) => {};
-
-export const updateProduct = async (req, res) => {};
-
+// Created a new function called getProductByComponentType
 export const getProductByComponentType = async (req, res) => {
   const { ComponentType } = req.params;
 
@@ -70,3 +68,7 @@ export const getProductByComponentType = async (req, res) => {
     console.log(err);
   }
 };
+
+export const deleteProduct = async (req, res) => {};
+
+export const updateProduct = async (req, res) => {};

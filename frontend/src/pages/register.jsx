@@ -1,6 +1,43 @@
 import Logo from "../assets/bg-Logo.png";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Register = () => {
+  const [email, setemail] = useState("");
+  const [password_hash, setpassword] = useState("");
+  const [fname, setfirstname] = useState("");
+  const [lname, setlastname] = useState("");
+  const [street, setstreetaddress] = useState("");
+  const [city, setcity] = useState("");
+  const [state, setstate] = useState("");
+  const [zip, setzipcode] = useState("");
+
+  const [error, setError] = useState("");
+
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:3000/register", {
+        fname,
+        lname,
+        email,
+        password_hash,
+        street,
+        city,
+        state,
+        zip,
+      });
+      console.log(response);
+      localStorage.setItem("token", response.data.token);
+    } catch (error) {
+      console.error(error);
+      alert("Invalid credentials" + error);
+    }
+  };
+
   return (
     <div class="flex min-h-full flex-col justify-center px-6 py-8 lg:px-8 ">
       <div class="sm:mx-auto sm:w-full sm:max-w-md">
@@ -11,7 +48,7 @@ const Register = () => {
       </div>
 
       <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <form class="space-y-6" action="#" method="POST">
+        <form class="space-y-6" onSubmit={handleSubmit}>
           <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div class="sm:col-span-3">
               <label
@@ -26,6 +63,8 @@ const Register = () => {
                   name="first-name"
                   id="first-name"
                   autocomplete="given-name"
+                  value={fname}
+                  onChange={(e) => setfirstname(e.target.value)}
                   required
                   class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 />
@@ -45,6 +84,8 @@ const Register = () => {
                   name="last-name"
                   id="last-name"
                   autocomplete="family-name"
+                  value={lname}
+                  onChange={(e) => setlastname(e.target.value)}
                   required
                   class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 />
@@ -64,6 +105,8 @@ const Register = () => {
                   name="email"
                   type="email"
                   autocomplete="email"
+                  value={email}
+                  onChange={(e) => setemail(e.target.value)}
                   required
                   class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 />
@@ -83,6 +126,8 @@ const Register = () => {
                   name="Password"
                   type="Password"
                   autocomplete="Password"
+                  value={password_hash}
+                  onChange={(e) => setpassword(e.target.value)}
                   required
                   class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 />
@@ -102,6 +147,8 @@ const Register = () => {
                   name="street-address"
                   id="street-address"
                   autocomplete="street-address"
+                  value={street}
+                  onChange={(e) => setstreetaddress(e.target.value)}
                   required
                   class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 />
@@ -121,6 +168,8 @@ const Register = () => {
                   name="city"
                   id="city"
                   autocomplete="address-level2"
+                  value={city}
+                  onChange={(e) => setcity(e.target.value)}
                   required
                   class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 />
@@ -140,6 +189,8 @@ const Register = () => {
                   name="region"
                   id="region"
                   autocomplete="address-level1"
+                  value={state}
+                  onChange={(e) => setstate(e.target.value)}
                   required
                   class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 />
@@ -159,6 +210,8 @@ const Register = () => {
                   name="postal-code"
                   id="postal-code"
                   autocomplete="postal-code"
+                  value={zip}
+                  onChange={(e) => setzipcode(e.target.value)}
                   required
                   class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 />

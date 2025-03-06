@@ -14,7 +14,9 @@ export const createUser = async (req, res) => {
     !state ||
     !zip
   ) {
-    return res.status(400).json({ message: "All fields are required!" });
+    return res
+      .status(400)
+      .json({ message: "All fields are required!", success: false });
   }
 
   try {
@@ -31,3 +33,7 @@ export const createUser = async (req, res) => {
     return res.status(500).json({ message: `Internal server error ${err}` });
   }
 };
+
+export const editUser = async (req, res) => {};
+
+export const deleteUser = async (req, res) => {};

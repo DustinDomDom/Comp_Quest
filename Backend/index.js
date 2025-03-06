@@ -61,14 +61,14 @@ async function initDB() {
     )
     `;
 
-    await sql`
-    CREATE TABLE IF NOT EXISTS Builds (
-      build_id SERIAL PRIMARY KEY,
-      user_id INT REFERENCES Users(user_id),
-      typecomponents TEXT[] ,
-      created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    )
-    `;
+    // await sql`
+    // CREATE TABLE IF NOT EXISTS Builds (
+    //   build_id SERIAL PRIMARY KEY,
+    //   user_id INT REFERENCES Users(user_id),
+    //   typecomponents TEXT[] ,
+    //   created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    // )
+    // `;
   } catch (err) {
     console.log(err);
   }
@@ -85,4 +85,6 @@ initDB().then(() => {
 
 // LOGIN/REGISTER ROUTES
 
-app.use("/api/register", createUser);
+app.use("/register", createUser);
+
+app.post("/register", createUser);
