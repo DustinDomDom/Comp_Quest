@@ -3,7 +3,7 @@ import { sql } from "../config/db.js";
 // Created a new function called getallProducts
 export const getallProducts = async (req, res) => {
   try {
-    const products = await sql`SELECT * FROM components`;
+    const products = await sql`SELECT * FROM component`;
 
     console.log("products fetched successfully");
 

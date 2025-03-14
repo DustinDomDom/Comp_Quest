@@ -6,19 +6,21 @@ import axios from "axios";
 const Login = () => {
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.port("http://localhost:3000/login", {
+      const response = await axios.post("http://localhost:3000/login", {
         email,
         password,
       });
-      localStorage.setItem("token", response.data.token);
-      navigate("/Build");
+      localStorage.setItem("token", response.data.token); // Store the token
+      localStorage.setItem("role", response.data.role); // Store the role
+      navigate("/Home"); // Redirect to the build page
     } catch (error) {
       console.error(error);
-      alert("Invalid credentials");
+      alert("Login failed. Please check your credentials.");
     }
   };
 

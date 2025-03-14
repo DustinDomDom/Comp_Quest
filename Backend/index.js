@@ -6,21 +6,19 @@ import morgan from "morgan";
 
 import { sql } from "./config/db.js";
 import productRoutes from "./routes/Products/productRoutes.js";
-import { createUser } from "./controllers/RegisterControllers.js";
+import { createUser, getUser } from "./controllers/UserControllers.js";
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-console.log(PORT);
-
 app.use(cors());
 app.use(express.json()); // Body parser
-
 app.use(helmet()); // HTTPS security
 app.use(morgan("dev")); // Logging
 
+// Initialize Database
 async function initDB() {
   try {
     await sql`
@@ -36,55 +34,24 @@ async function initDB() {
     )
     `;
 
-    await sql`
-    CREATE TABLE IF NOT EXISTS Users (
-      user_id SERIAL PRIMARY KEY,
-      fname VARCHAR(50) NOT NULL,
-      lname VARCHAR(50) NOT NULL,
-      email VARCHAR(100) UNIQUE NOT NULL,
-      password_hash VARCHAR(255) NOT NULL,
-      street VARCHAR(50),
-      city VARCHAR(50),
-      state VARCHAR(50),
-      zip VARCHAR(10),
-      created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    )
-    `;
-
-    await sql`
-    CREATE TABLE IF NOT EXISTS Orders (
-      order_id SERIAL PRIMARY KEY,
-      user_id INT,
-      component_id INT,
-      quantity INT,
-      created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    )
-    `;
-
-    // await sql`
-    // CREATE TABLE IF NOT EXISTS Builds (
-    //   build_id SERIAL PRIMARY KEY,
-    //   user_id INT REFERENCES Users(user_id),
-    //   typecomponents TEXT[] ,
-    //   created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    // )
-    // `;
+    console.log("Database initialized");
   } catch (err) {
-    console.log(err);
+    console.error("Error initializing database:", err);
   }
 }
 
-app.use("/api/Components", productRoutes);
+// Routes
+app.use("/api/Component", productRoutes);
 
+// Register User
+app.post("/register", createUser);
+
+// Login User
+app.post("/login", getUser);
+
+// Initialize database and start server
 initDB().then(() => {
-  console.log("Database initialized");
   app.listen(PORT, () => {
-    console.log(`Example app listening on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
   });
 });
-
-// LOGIN/REGISTER ROUTES
-
-app.use("/register", createUser);
-
-app.post("/register", createUser);

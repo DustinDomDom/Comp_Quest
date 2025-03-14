@@ -9,10 +9,13 @@ import Question from "./pages/Question";
 import Errornotif from "./components/errornotif";
 import Login from "./pages/login";
 import Register from "./pages/register";
+import UserPanel from "./pages/UserPanel";
+import Admin from "./pages/Admin";
 import React from "react";
 
 function App() {
-  const isAuth = !!localStorage.getItem("token");
+  const isAuth = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
 
   return (
     <main>
@@ -20,7 +23,21 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/Home" element={<Home />} />
-        <Route path="/Build" element={isAuth ? <Build /> : <Errornotif />} />
+        <Route
+          path="/UserPanel"
+          element={!role ? <Errornotif /> : <UserPanel />}
+        />
+
+        <Route
+          path="/Admin"
+          element={role === "admin" ? <Admin /> : <Errornotif />}
+        />
+
+        <Route
+          path="/Build"
+          element={isAuth && role === "user" ? <Build /> : <Errornotif />}
+        />
+
         <Route path="/FAQ" element={<Question />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Register" element={<Register />} />
