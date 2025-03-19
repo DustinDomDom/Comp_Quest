@@ -1,7 +1,7 @@
 import { sql } from "../config/db.js";
 
 // Created a new function called getallProducts
-export const getallProducts = async (req, res) => {
+export const getallProductsOption = async (req, res) => {
   try {
     const products = await sql`SELECT * FROM component`;
 
@@ -10,6 +10,89 @@ export const getallProducts = async (req, res) => {
     res.status(200).json({ success: true, data: products });
   } catch (err) {
     console.log(err);
+  }
+};
+
+export const getProductByComponentType = async (req, res) => {
+  const { type } = req.params;
+
+  switch (type) {
+    case "CPU":
+      try {
+        const productID = await sql`
+      SELECT * FROM CPU;
+    `;
+        res.status(200).json({ success: true, data: productID });
+      } catch (err) {
+        console.log(err);
+      }
+    case "GPU":
+      try {
+        const productID = await sql`
+      SELECT * FROM GPU;
+    `;
+        res.status(200).json({ success: true, data: productID });
+      } catch (err) {
+        console.log(err);
+      }
+    case "PSU":
+      try {
+        const productID = await sql`
+      SELECT * FROM PSU;
+    `;
+        res.status(200).json({ success: true, data: productID });
+      } catch (err) {
+        console.log(err);
+      }
+    case "MEMORY":
+      try {
+        const productID = await sql`
+      SELECT * FROM MEMORY;
+    `;
+        res.status(200).json({ success: true, data: productID });
+      } catch (err) {
+        console.log(err);
+      }
+    case "MONITOR":
+      try {
+        const productID = await sql`
+      SELECT * FROM MONITOR;
+    `;
+        res.status(200).json({ success: true, data: productID });
+      } catch (err) {
+        console.log(err);
+      }
+    case "MOTHERBOARD":
+      try {
+        const productID = await sql`
+      SELECT * FROM MOTHERBOARD;
+    `;
+        res.status(200).json({ success: true, data: productID });
+      } catch (err) {
+        console.log(err);
+      }
+    case "STORAGE":
+      try {
+        const productID = await sql`
+      SELECT * FROM STORAGE;
+    `;
+        res.status(200).json({ success: true, data: productID });
+      } catch (err) {
+        console.log(err);
+      }
+    case "CPU_COOLER":
+      try {
+        const productID = await sql`
+      SELECT * FROM CPU_COOLER;
+    `;
+        res.status(200).json({ success: true, data: productID });
+      } catch (err) {
+        console.log(err);
+      }
+    default:
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid component type" });
   }
 };
 
@@ -50,22 +133,6 @@ export const createProduct = async (req, res) => {
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: `Internal server error ${err}` });
-  }
-};
-
-// Created a new function called getProductByComponentType
-export const getProductByComponentType = async (req, res) => {
-  const { ComponentType } = req.params;
-
-  try {
-    const products = await sql`
-        SELECT * FROM components WHERE component_type = ${ComponentType}`;
-
-    console.log("products fetched successfully");
-
-    res.status(200).json({ success: true, data: products });
-  } catch (err) {
-    console.log(err);
   }
 };
 

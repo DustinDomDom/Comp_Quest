@@ -2,21 +2,22 @@ import express from "express";
 import {
   createProduct,
   deleteProduct,
-  getallProducts,
   updateProduct,
   getProductByComponentType,
+  getallProductsOption,
 } from "../../controllers/productControllers.js";
 
 const router = express.Router();
 
-// Trying to get all products
-router.get("/", getallProducts);
+router.get("/", getallProductsOption);
+
+router.get("/:type", getProductByComponentType);
 
 // Trying to create a new product
-router.post("/", createProduct);
+router.post("/", createProduct); // Reserved for Admin
 
-// Trying to get ComponentType
-router.get("/:ComponentType", getProductByComponentType);
+// Trying to get all product based ComponentType
+// router.get("/:ComponentType", getProductByComponentType);
 
 // OPTIONAL: Update and Delete routes
 router.put("/:id", updateProduct);

@@ -1,21 +1,27 @@
 import { sql } from "../config/db.js";
 
 export const createUser = async (req, res) => {
-  const { UserID, Fname, Lname, Email, Password, UserType } = req.body;
+  const { userid, lname, fname, email, password, usertype, address } = req.body;
 
   // Validate required fields
-  if (!UserID || !Fname || !Lname || !Email || !Password || !UserType) {
+  if (
+    !userid ||
+    !lname ||
+    !fname ||
+    !email ||
+    !password ||
+    !usertype ||
+    !address
+  ) {
     return res
       .status(400)
       .json({ message: "All fields are required!", success: false });
   }
 
   try {
-    // Insert new user into the database
     const userCreated = await sql`
-      INSERT INTO "User" (UserID, Lname, Fname, Email, Password, UserType)
-      VALUES (${UserID}, ${Lname}, ${Fname}, ${Email}, ${Password}, ${UserType})
-      RETURNING *`;
+      INSERT INTO useraccount (userid, lname, fname, email, password, usertype, address)
+      VALUES (${userid}, ${lname}, ${fname}, ${email}, ${password}, ${usertype}, ${address}) RETURNING *`;
 
     console.log("User created successfully");
 
@@ -36,7 +42,7 @@ export const getUser = async (req, res) => {
   try {
     // Find the user by email
     const result = await sql`
-      SELECT user_id, email, password_hash, role FROM Users WHERE email = ${email}
+      SELECT userID, email, password, usertype FROM useraccount WHERE email = ${email}
     `;
 
     if (result.length === 0) {
@@ -46,12 +52,12 @@ export const getUser = async (req, res) => {
     const user = result[0];
 
     // Verify the password
-    if (password !== user.password_hash) {
+    if (password !== user.password) {
       return res.status(400).json({ error: "Invalid password" });
     }
 
     // Return user data (excluding password)
-    res.json({ user_id: user.user_id, email: user.email, role: user.role });
+    res.json({ user_id: user.userid, email: user.email, role: user.usertype });
   } catch (err) {
     console.error("Error logging in:", err);
     res.status(500).json({ error: "Internal server error" });
