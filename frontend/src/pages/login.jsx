@@ -11,12 +11,12 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:3000/user/login", {
+      const response = await axios.post("http://localhost:3000/User/login", {
         email,
         password,
       });
       localStorage.setItem("token", response.data.token); // Store the token
-      localStorage.setItem("role", response.data.role); // Store the role
+      localStorage.setItem("user", response.data.role); // Store the role
       navigate("/Home"); // Redirect to the home page
     } catch (error) {
       console.error(error);

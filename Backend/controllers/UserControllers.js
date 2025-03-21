@@ -1,27 +1,26 @@
 import { sql } from "../config/db.js";
 
 export const createUser = async (req, res) => {
-  const { userid, lname, fname, email, password, usertype, address } = req.body;
+  const { lname, fname, email, password, address } = req.body;
 
-  // Validate required fields
-  if (
-    !userid ||
-    !lname ||
-    !fname ||
-    !email ||
-    !password ||
-    !usertype ||
-    !address
-  ) {
+  if (!lname || !fname || !email || !password || !address) {
     return res
       .status(400)
       .json({ message: "All fields are required!", success: false });
   }
 
   try {
+    const existingUser = await sql`
+      SELECT email FROM useraccount WHERE email = ${email}
+    `;
+
+    if (existingUser.length > 0) {
+      return res.status(400).json({ error: "Email already registered" });
+    }
+
     const userCreated = await sql`
-      INSERT INTO useraccount (userid, lname, fname, email, password, usertype, address)
-      VALUES (${userid}, ${lname}, ${fname}, ${email}, ${password}, ${usertype}, ${address}) RETURNING *`;
+      INSERT INTO useraccount (lname, fname, email, password, usertype, address)
+      VALUES (${lname}, ${fname}, ${email}, ${password}, 'user', ${address}) `;
 
     console.log("User created successfully");
 

@@ -5,14 +5,10 @@ import axios from "axios";
 
 const Register = () => {
   const [email, setemail] = useState("");
-  const [password_hash, setpassword] = useState("");
+  const [password, setpassword] = useState("");
   const [fname, setfirstname] = useState("");
   const [lname, setlastname] = useState("");
-  const [street, setstreetaddress] = useState("");
-  const [city, setcity] = useState("");
-  const [state, setstate] = useState("");
-  const [zip, setzipcode] = useState("");
-
+  const [address, setaddress] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -22,17 +18,19 @@ const Register = () => {
         fname,
         lname,
         email,
-        password_hash,
-        street,
-        city,
-        state,
-        zip,
+        password,
+        address,
       });
-      console.log(response);
-      localStorage.setItem("token", response.data.token);
+
+      if (response.status === 201) {
+        alert("Registration successful! Please login.");
+        navigate("/Login"); // Redirect to login page
+      }
     } catch (error) {
-      console.error(error);
-      alert("Invalid credentials" + error);
+      console.log(error);
+      alert(
+        "Error: " + (error.response?.data?.error || "Something went wrong!")
+      );
     }
   };
 
@@ -124,7 +122,7 @@ const Register = () => {
                   name="Password"
                   type="Password"
                   autocomplete="Password"
-                  value={password_hash}
+                  value={password}
                   onChange={(e) => setpassword(e.target.value)}
                   required
                   class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
@@ -137,79 +135,16 @@ const Register = () => {
                 for="street-address"
                 class="block text-sm/6 font-medium text-gray-900"
               >
-                Street address
+                Address
               </label>
               <div class="mt-2">
                 <input
                   type="text"
-                  name="street-address"
-                  id="street-address"
-                  autocomplete="street-address"
-                  value={street}
-                  onChange={(e) => setstreetaddress(e.target.value)}
-                  required
-                  class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                />
-              </div>
-            </div>
-
-            <div class="sm:col-span-2 sm:col-start-1">
-              <label
-                for="city"
-                class="block text-sm/6 font-medium text-gray-900"
-              >
-                City
-              </label>
-              <div class="mt-2">
-                <input
-                  type="text"
-                  name="city"
-                  id="city"
-                  autocomplete="address-level2"
-                  value={city}
-                  onChange={(e) => setcity(e.target.value)}
-                  required
-                  class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                />
-              </div>
-            </div>
-
-            <div class="sm:col-span-2">
-              <label
-                for="region"
-                class="block text-sm/6 font-medium text-gray-900"
-              >
-                State / Province
-              </label>
-              <div class="mt-2">
-                <input
-                  type="text"
-                  name="region"
-                  id="region"
-                  autocomplete="address-level1"
-                  value={state}
-                  onChange={(e) => setstate(e.target.value)}
-                  required
-                  class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                />
-              </div>
-            </div>
-
-            <div class="sm:col-span-2">
-              <label
-                for="postal-code"
-                class="block text-sm/6 font-medium text-gray-900"
-              >
-                ZIP / Postal code
-              </label>
-              <div class="mt-2">
-                <input
-                  type="text"
-                  name="postal-code"
-                  id="postal-code"
-                  autocomplete="postal-code"
-                  value={zip}
-                  onChange={(e) => setzipcode(e.target.value)}
+                  name="address"
+                  id="address"
+                  autocomplete="address"
+                  value={address}
+                  onChange={(e) => setaddress(e.target.value)}
                   required
                   class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 />

@@ -15,7 +15,6 @@ import React from "react";
 
 function App() {
   const isAuth = localStorage.getItem("token");
-  const role = localStorage.getItem("role");
 
   return (
     <main>
@@ -23,20 +22,16 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/Home" element={<Home />} />
-        <Route
+        {/* <Route
           path="/UserPanel"
           element={!role ? <Errornotif /> : <UserPanel />}
-        />
+        /> */}
 
-        <Route
-          path="/Admin"
-          element={role === "admin" ? <Admin /> : <Errornotif />}
-        />
+        <Route path="/Admin" element={!isAuth ? <Admin /> : <Errornotif />} />
 
-        <Route
-          path="/Build"
-          element={isAuth && role === "user" ? <Build /> : <Errornotif />}
-        />
+        <Route path="/Build" element={!isAuth ? <Build /> : <Errornotif />} />
+
+        <Route path="/Build" element={<Build />} />
 
         <Route path="/FAQ" element={<Question />} />
         <Route path="/Login" element={<Login />} />
