@@ -5,16 +5,18 @@ import Header from "./components/header";
 import Footer from "./components/footer";
 import Home from "./pages/home";
 import Build from "./pages/build";
-import Question from "./pages/Question";
+import FAQ from "./pages/FAQ";
 import Errornotif from "./components/errornotif";
 import Login from "./pages/login";
 import Register from "./pages/register";
 import UserPanel from "./pages/UserPanel";
 import Admin from "./pages/Admin";
 import React from "react";
+import Contact from "./pages/Contact";
 
 function App() {
-  const isAuth = localStorage.getItem("token");
+  const isAuth = localStorage.getItem("userid");
+  const role = localStorage.getItem("user");
 
   return (
     <main>
@@ -27,15 +29,26 @@ function App() {
           element={!role ? <Errornotif /> : <UserPanel />}
         /> */}
 
-        <Route path="/Admin" element={!isAuth ? <Admin /> : <Errornotif />} />
+        <Route
+          path="/Admin"
+          element={role === "admin" ? <Admin /> : <Errornotif />}
+        />
 
-        <Route path="/Build" element={!isAuth ? <Build /> : <Errornotif />} />
+        <Route
+          path="/Build"
+          element={isAuth && role === "User" ? <Build /> : <Errornotif />}
+        />
 
-        <Route path="/Build" element={<Build />} />
-
-        <Route path="/FAQ" element={<Question />} />
-        <Route path="/Login" element={<Login />} />
-        <Route path="/Register" element={<Register />} />
+        <Route path="/FAQ" element={<FAQ />} />
+        <Route path="/Contact" element={<Contact />} />
+        <Route
+          path="/Login"
+          element={!isAuth && !role ? <Login /> : <Errornotif />}
+        />
+        <Route
+          path="/Register"
+          element={!isAuth && !role ? <Register /> : <Errornotif />}
+        />
       </Routes>
       <Footer />
     </main>

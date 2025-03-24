@@ -1,5 +1,5 @@
-import React from "react";
-
+import React, { useState } from "react";
+import Modal from "../components/Modal";
 import CPU from "../assets/SVG/CPU.svg";
 import Cooler from "../assets/SVG/Cooler.svg";
 import Monitor from "../assets/SVG/Monitor.svg";
@@ -8,170 +8,101 @@ import RAM from "../assets/SVG/RAM.svg";
 import VideoCard from "../assets/SVG/GPU.svg";
 import Case from "../assets/SVG/Case.svg";
 import PowerSupply from "../assets/SVG/PSU.svg";
+import axios from "axios";
 
 const Components = [
-  {
-    Component_name: CPU,
-    Selected_name: "",
-    Tags: [],
-    Price_tag: "",
-    Wattage: "",
-  },
-  {
-    Component_name: Cooler,
-    Selected_name: "",
-    Tags: [],
-    Price_tag: "",
-    Wattage: "",
-  },
-  {
-    Component_name: Monitor,
-    Selected_name: "",
-    Tags: [],
-    Price_tag: "",
-    Wattage: "",
-  },
-  {
-    Component_name: Motherboard,
-    Selected_name: "",
-    Tags: [],
-    Price_tag: "",
-    Wattage: "",
-  },
-  {
-    Component_name: RAM,
-    Selected_name: "",
-    Tags: [],
-    Price_tag: "",
-    Wattage: "",
-  },
-  {
-    Component_name: VideoCard,
-    Selected_name: "",
-    Tags: [],
-    Price_tag: "",
-    Wattage: "",
-  },
-  {
-    Component_name: Case,
-    Selected_name: "",
-    Tags: [],
-    Price_tag: "",
-    Wattage: "",
-  },
-  {
-    Component_name: PowerSupply,
-    Selected_name: "",
-    Tags: [],
-    Price_tag: "",
-    Wattage: "",
-  },
+  { name: "CPU", icon: CPU },
+  { name: "GPU", icon: VideoCard },
+  { name: "PSU", icon: PowerSupply },
+  { name: "MEMORY", icon: RAM },
+  { name: "MONITOR", icon: Monitor },
+  { name: "MOTHERBOARD", icon: Motherboard },
+  { name: "STORAGE", icon: Case },
+  { name: "CPU_COOLER", icon: Cooler },
 ];
 
 const Build = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [selectedComponent, setSelectedComponent] = useState(null);
+  const [productList, setProductList] = useState([]);
+  const [selectedProducts, setSelectedProducts] = useState({});
+
+  // Fetch component data from the backend
+  const fetchComponentData = async (type) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/API/Component/${type}`
+      );
+      const result = response.data;
+
+      if (result.success) {
+        setProductList(result.data);
+      } else {
+        console.error("Error fetching component data:", result.message);
+      }
+    } catch (error) {
+      console.error("Error fetching component data:", error);
+    }
+  };
+
+  // Handle component selection and open modal
+  const handleSelect = async (component) => {
+    setSelectedComponent(component);
+    await fetchComponentData(component.name);
+    setShowModal(true);
+  };
+
+  // Handle product selection and update the component
+  const handleProductSelect = (product) => {
+    setSelectedProducts((prevProducts) => ({
+      ...prevProducts,
+      [selectedComponent.name]: product,
+    }));
+    closeModal();
+    console.log(product.Price);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setSelectedComponent(null);
+    setProductList([]);
+  };
+
   return (
-    <section class="container px-4 mx-auto">
-      <div class="flex flex-col mt-6">
-        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-            <div class="overflow-hidden"></div>
-            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-              <thead class="bg-gray-300 text-black">
-                <tr>
-                  <th
-                    scope="col"
-                    class="py-3.5 px-4 text-sm font-normal text-center"
-                  >
-                    <div class="flex items-center justify-center gap-x-3">
-                      <span>Component</span>
-                    </div>
-                  </th>
-
-                  <th
-                    scope="col"
-                    class="px-12 py-3.5 text-sm font-normal text-center "
-                  >
-                    <div class="flex items-center justify-center gap-x-3">
-                      <span>Selection</span>
-                    </div>
-                  </th>
-
-                  <th
-                    scope="col"
-                    class="px-4 py-3.5 text-sm font-normal text-center "
-                  >
-                    <div class="flex items-center justify-center gap-x-3">
-                      <span>Tags</span>
-                    </div>
-                  </th>
-
-                  <th
-                    scope="col"
-                    class="px-4 py-3.5 text-sm font-normal text-center "
-                  >
-                    <div class="flex items-center justify-center gap-x-3">
-                      <span>Price</span>
-                    </div>
-                  </th>
-
-                  <th
-                    scope="col"
-                    class="px-4 py-3.5 text-sm font-normal text-center "
-                  >
-                    <div class="flex items-center justify-center gap-x-3">
-                      <span>Estimated Wattage</span>
-                    </div>
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-4 py-3.5 text-sm font-normal text-center "
-                  >
-                    <div class="flex items-center justify-center gap-x-3">
-                      <span>Action</span>
-                    </div>
-                  </th>
-                </tr>
-              </thead>
-              <tbody class="bg-white  divide-y divide-gray-200 dark:divide-gray-700">
-                {Components.map((component) => (
-                  <tr>
-                    <td class="px-4 py-4 whitespace-nowrap">
-                      <div class="flex items-center justify-center">
-                        <div class="text-sm text-gray-900 w-32">
-                          <img src={component.Component_name} alt="" />
-                        </div>
-                      </div>
-                    </td>
-                    <td class="px-4 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">
-                        {component.Selected_name}
-                      </div>
-                    </td>
-                    <td class="px-4 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">
-                        {component.Tags.map((tag) => (
-                          <span class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </td>
-                    <td class="px-4 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900 ">
-                        {component.Price_tag}
-                      </div>
-                    </td>
-                    <td class="px-4 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900 ">
-                        {component.Wattage}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+    <section className="container px-4 mx-auto">
+      <div className="flex flex-col mt-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          {Components.map((component, index) => (
+            <div
+              key={index}
+              className="bg-gray-100 p-4 rounded-lg hover:shadow-lg cursor-pointer transition"
+              onClick={() => handleSelect(component)}
+            >
+              <img
+                src={component.icon}
+                alt={component.name}
+                className="w-40 h-40 mx-auto mb-3"
+              />
+              <h3 className="text-lg font-semibold text-center">
+                {component.name}
+              </h3>
+              {selectedProducts[component.name] && (
+                <p className="text-sm text-center text-green-500">
+                  {selectedProducts[component.name].Description} - $
+                  {selectedProducts[component.name].Price}
+                </p>
+              )}
+            </div>
+          ))}
         </div>
+
+        <Modal
+          show={showModal}
+          component={selectedComponent}
+          onClose={closeModal}
+          productList={productList}
+          onProductSelect={handleProductSelect}
+        />
       </div>
     </section>
   );

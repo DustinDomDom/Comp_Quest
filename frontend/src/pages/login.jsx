@@ -1,4 +1,4 @@
-import Logo from "../assets/bg-Logo.png";
+import Logo from "/Users/domin/Music/Programming/Comp_Quest/frontend/src/assets/bg-logo.png";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -15,9 +15,17 @@ const Login = () => {
         email,
         password,
       });
-      localStorage.setItem("token", response.data.token); // Store the token
+      console.log(response);
+      localStorage.setItem("userid", response.data.user_id); // Store the token
       localStorage.setItem("user", response.data.role); // Store the role
-      navigate("/Home"); // Redirect to the home page
+
+      const role = localStorage.getItem("user");
+
+      if (role === "admin") {
+        navigate("/Admin");
+      } else {
+        navigate("/Home");
+      }
     } catch (error) {
       console.error(error);
       alert(error);

@@ -3,9 +3,8 @@ import { sql } from "../config/db.js";
 // Created a new function called getallProducts
 export const getallProductsOption = async (req, res) => {
   try {
-    const products = await sql`SELECT * FROM component`;
-
-    console.log("products fetched successfully");
+    const products = await sql`SELECT * FROM component
+`;
 
     res.status(200).json({ success: true, data: products });
   } catch (err) {
@@ -20,75 +19,107 @@ export const getProductByComponentType = async (req, res) => {
     case "CPU":
       try {
         const productID = await sql`
-      SELECT * FROM CPU;
-    `;
-        res.status(200).json({ success: true, data: productID });
+          SELECT * FROM CPU`;
+        return res.status(200).json({ success: true, data: productID });
       } catch (err) {
         console.log(err);
+        return res
+          .status(500)
+          .json({ success: false, message: "Internal server error" });
       }
+      break;
+
     case "GPU":
       try {
         const productID = await sql`
-      SELECT * FROM GPU;
-    `;
-        res.status(200).json({ success: true, data: productID });
+          SELECT * FROM GPU`;
+        return res.status(200).json({ success: true, data: productID });
       } catch (err) {
         console.log(err);
+        return res
+          .status(500)
+          .json({ success: false, message: "Internal server error" });
       }
+      break;
+
     case "PSU":
       try {
         const productID = await sql`
-      SELECT * FROM PSU;
-    `;
-        res.status(200).json({ success: true, data: productID });
+          SELECT * FROM PSU`;
+        return res.status(200).json({ success: true, data: productID });
       } catch (err) {
         console.log(err);
+        return res
+          .status(500)
+          .json({ success: false, message: "Internal server error" });
       }
+      break;
+
     case "MEMORY":
       try {
         const productID = await sql`
-      SELECT * FROM MEMORY;
-    `;
-        res.status(200).json({ success: true, data: productID });
+          SELECT * FROM MEMORY`;
+        return res.status(200).json({ success: true, data: productID });
       } catch (err) {
         console.log(err);
+        return res
+          .status(500)
+          .json({ success: false, message: "Internal server error" });
       }
+      break;
+
     case "MONITOR":
       try {
         const productID = await sql`
-      SELECT * FROM MONITOR;
-    `;
-        res.status(200).json({ success: true, data: productID });
+          SELECT * FROM MONITOR`;
+        return res.status(200).json({ success: true, data: productID });
       } catch (err) {
         console.log(err);
+        return res
+          .status(500)
+          .json({ success: false, message: "Internal server error" });
       }
+      break;
+
     case "MOTHERBOARD":
       try {
         const productID = await sql`
-      SELECT * FROM MOTHERBOARD;
-    `;
-        res.status(200).json({ success: true, data: productID });
+          SELECT * FROM MOTHERBOARD`;
+        return res.status(200).json({ success: true, data: productID });
       } catch (err) {
         console.log(err);
+        return res
+          .status(500)
+          .json({ success: false, message: "Internal server error" });
       }
+      break;
+
     case "STORAGE":
       try {
         const productID = await sql`
-      SELECT * FROM STORAGE;
-    `;
-        res.status(200).json({ success: true, data: productID });
+          SELECT * FROM STORAGE`;
+        return res.status(200).json({ success: true, data: productID });
       } catch (err) {
         console.log(err);
+        return res
+          .status(500)
+          .json({ success: false, message: "Internal server error" });
       }
+      break;
+
     case "CPU_COOLER":
       try {
         const productID = await sql`
-      SELECT * FROM CPU_COOLER;
-    `;
-        res.status(200).json({ success: true, data: productID });
+          SELECT * FROM CPU_COOLER`;
+        return res.status(200).json({ success: true, data: productID });
       } catch (err) {
         console.log(err);
+        return res
+          .status(500)
+          .json({ success: false, message: "Internal server error" });
       }
+      break;
+
     default:
       return res
         .status(400)

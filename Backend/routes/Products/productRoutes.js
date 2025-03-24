@@ -16,9 +16,6 @@ router.get("/:type", getProductByComponentType);
 // Trying to create a new product
 router.post("/", createProduct); // Reserved for Admin
 
-// Trying to get all product based ComponentType
-// router.get("/:ComponentType", getProductByComponentType);
-
 // OPTIONAL: Update and Delete routes
 router.put("/:id", updateProduct);
 router.delete("/:id", deleteProduct);

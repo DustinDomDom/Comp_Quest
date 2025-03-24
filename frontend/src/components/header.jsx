@@ -5,20 +5,21 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa"; // User icon for the logged-in user
 
 const Header = () => {
+  const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Change to true for testing logged-in state
   const [role, setRole] = useState("user");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false); // To toggle the dropdown
 
   const handleLogout = () => {
-    localStorage.removeItem("token"); // Remove the token from localStorage
-    localStorage.removeItem("role"); // Remove the role from localStorage
+    navigate("/Home");
+    localStorage.removeItem("userid"); // Remove the token from localStorage
+    localStorage.removeItem("user"); // Remove the role from localStorage
     setIsLoggedIn(false); // Update state to logged out
-    navigate("/login"); // Redirect to login page
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token"); // Get the token from localStorage
-    const storedRole = localStorage.getItem("role"); // Get the role from localStorage
+    const token = localStorage.getItem("userid"); // Get the token from localStorage
+    const storedRole = localStorage.getItem("user"); // Get the role from localStorage
     if (token && storedRole) {
       setIsLoggedIn(true); // User is logged in
       setRole(storedRole); // Set user role
@@ -45,7 +46,7 @@ const Header = () => {
           <a href="#" className="text-md/6 font-semibold text-white">
             FAQs
           </a>
-          <a href="#" className="text-md/6 font-semibold text-white">
+          <a href="/Contact" className="text-md/6 font-semibold text-white">
             Contact Us
           </a>
         </div>
@@ -58,8 +59,8 @@ const Header = () => {
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)} // Toggle dropdown
                 className="text-white flex items-center"
               >
-                <FaUserCircle className="text-2xl mr-2" /> {/* User icon */}
-                <span className="font-semibold">Profile</span>
+                <FaUserCircle className="text-2xl mr-2" />
+                <span className="font-semibold"></span>
               </button>
               {isDropdownOpen && (
                 <div className="absolute right-0 mt-2 bg-white text-black rounded-md shadow-lg w-40 py-2">

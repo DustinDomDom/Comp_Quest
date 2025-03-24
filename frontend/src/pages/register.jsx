@@ -1,4 +1,4 @@
-import Logo from "../assets/bg-Logo.png";
+// import Logo from "../assets/bg-Logo.png";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -24,7 +24,7 @@ const Register = () => {
 
       if (response.status === 201) {
         alert("Registration successful! Please login.");
-        navigate("/Login"); // Redirect to login page
+        navigate("/Login");
       }
     } catch (error) {
       console.log(error);
