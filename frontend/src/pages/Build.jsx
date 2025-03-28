@@ -26,13 +26,14 @@ const Build = () => {
   const [selectedComponent, setSelectedComponent] = useState(null);
   const [productList, setProductList] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState({});
+  const [totalPrice, setTotalPrice] = useState(0);
 
-  // Fetch component data from the backend
+  const userid = localStorage.getItem("userid"); // Get userID from localStorage
+
+  // Fetch component data from backend
   const fetchComponentData = async (type) => {
     try {
-      const response = await axios.get(
-        `http://localhost:3000/API/Component/${type}`
-      );
+      const response = await axios.get(`http://localhost:3000/API/${type}`);
       const result = response.data;
 
       if (result.success) {
@@ -52,26 +53,81 @@ const Build = () => {
     setShowModal(true);
   };
 
-  // Handle product selection and update the component
+  // Handle product selection and update component
   const handleProductSelect = (product) => {
-    setSelectedProducts((prevProducts) => ({
-      ...prevProducts,
-      [selectedComponent.name]: product,
-    }));
+    setSelectedProducts((prevProducts) => {
+      const updatedProducts = {
+        ...prevProducts,
+        [selectedComponent.name]: product,
+      };
+
+      // Update total price after selecting a product
+      calculateTotalPrice(updatedProducts);
+      return updatedProducts;
+    });
     closeModal();
-    console.log(product.Price);
   };
 
+  // Close modal
   const closeModal = () => {
     setShowModal(false);
     setSelectedComponent(null);
     setProductList([]);
   };
 
+  // Calculate total price of selected products
+  const calculateTotalPrice = (products) => {
+    let total = Object.values(products).reduce(
+      (sum, product) => (sum += parseFloat(product.Price || 0)),
+      0
+    );
+    setTotalPrice(total.toFixed(2));
+  };
+
+  // Check if all components are selected
+  const allComponentSelected = () => {
+    return Components.every(
+      (component) => selectedProducts[component.name] !== undefined
+    );
+  };
+
+  // Send order to the backend
+  const handleOrder = async () => {
+    if (!allComponentSelected()) {
+      alert("Complete the Build!");
+      return;
+    }
+
+    const orderData = {
+      userID: userid,
+      components: selectedProducts,
+      totalPrice: parseFloat(totalPrice),
+      orderDate: new Date().toISOString(),
+    };
+
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/order/Pending",
+        orderData
+      );
+
+      if (response.data.success) {
+        alert("Order Successfully Placed!");
+        console.log("Order saved:", response.data);
+      } else {
+        console.error("Error placing order:", response.data.message);
+        alert("Error placing order!");
+      }
+    } catch (error) {
+      console.error("Error submitting order:", error);
+      alert("An error occurred while submitting the order.");
+    }
+  };
+
   return (
     <section className="container px-4 mx-auto">
       <div className="flex flex-col mt-6">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-6 pb-12 pt-12">
           {Components.map((component, index) => (
             <div
               key={index}
@@ -103,6 +159,20 @@ const Build = () => {
           productList={productList}
           onProductSelect={handleProductSelect}
         />
+      </div>
+      <hr />
+      <div className="w-auto pt-6 pb-6">
+        <div className="flex justify-between">
+          <div>
+            <button
+              onClick={handleOrder}
+              className="transform rounded-md bg-green-700 px-5 py-3 font-medium text-white transition-colors hover:bg-DarkBlue"
+            >
+              Order Confirm
+            </button>
+          </div>
+          <h3>Total ${totalPrice}</h3>
+        </div>
       </div>
     </section>
   );

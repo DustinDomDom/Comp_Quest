@@ -1,6 +1,5 @@
 import { sql } from "../config/db.js";
 
-// Created a new function called getallProducts
 export const getallProductsOption = async (req, res) => {
   try {
     const products = await sql`SELECT * FROM component
