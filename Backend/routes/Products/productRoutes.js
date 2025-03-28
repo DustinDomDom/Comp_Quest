@@ -14,7 +14,7 @@ router.get("/", getallProductsOption);
 router.get("/:type", getProductByComponentType);
 
 // Trying to create a new product
-router.post("/", createProduct); // Reserved for Admin
+router.post("/component/create", createProduct); // Reserved for Admin
 
 // OPTIONAL: Update and Delete routes
 router.put("/:id", updateProduct);

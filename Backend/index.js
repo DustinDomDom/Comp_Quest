@@ -6,6 +6,8 @@ import morgan from "morgan";
 
 import productRoutes from "./routes/Products/productRoutes.js";
 import UserRoutes from "./routes/Users/UserRoutes.js";
+import orderRoutes from "./routes/order/orderRoutes.js";
+import manufacturerRoute from "./routes/manufacturer/manufacturerRoute.js";
 
 dotenv.config();
 
@@ -22,7 +24,10 @@ app.listen(PORT, () => {
 });
 
 // Routes for All options of Components
-app.use("/API/Component", productRoutes);
+app.use("/API", productRoutes);
 
-// Routes for User
 app.use("/user", UserRoutes);
+
+app.use("/order", orderRoutes);
+
+app.use("/manufacturer", manufacturerRoute);

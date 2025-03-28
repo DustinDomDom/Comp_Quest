@@ -63,6 +63,19 @@ export const getUser = async (req, res) => {
   }
 };
 
+export const getAllUser = async (req, res) => {
+  try {
+    const result = await sql`
+      SELECT * FROM useraccount
+    `;
+
+    res.status(200).json({ success: true, data: result });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
 export const editUser = async (req, res) => {};
 
 export const deleteUser = async (req, res) => {};
